@@ -1,1 +1,1 @@
-from gym_cartpoletwist.envs import cartpoletwist_env
+from gym_cartpoletwist.envs.cartpoletwist_env import CartPoleTwistEnv
