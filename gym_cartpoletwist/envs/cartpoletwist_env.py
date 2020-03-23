@@ -60,17 +60,14 @@ class CartPoleTwistEnv(gym.Env):
         self.kinematics_integrator = 'euler'
 
         self.desired_angle = 60 * 2 * math.pi / 360
-        self.flexibility = 20
+        self.flexibility = 10
 
-        # Angle at which to fail the episode
-        self.theta_threshold_radians = 360 * 2 * math.pi / 360
-        self.x_threshold = 4
+        self.x_threshold = 2.5
 
         # Angle limit set to 2 * theta_threshold_radians so failing observation is still within bounds
         high = np.array([self.x_threshold * 2,
                          np.finfo(np.float32).max,
-                         self.theta_threshold_radians * 2,
-                         np.finfo(np.float32).max],
+                         ],
                         dtype=np.float32)
 
         self.action_space = spaces.Discrete(2)
@@ -108,9 +105,7 @@ class CartPoleTwistEnv(gym.Env):
             theta = theta + self.tau * theta_dot
         self.state = (x,x_dot,theta,theta_dot)
         done =  x < -self.x_threshold \
-                or x > self.x_threshold \
-                or theta < -self.theta_threshold_radians \
-                or theta > self.theta_threshold_radians
+                or x > self.x_threshold
         done = bool(done)
 
         distance_from_desired_angle = (abs(theta) - self.desired_angle) / self.flexibility
@@ -129,7 +124,7 @@ class CartPoleTwistEnv(gym.Env):
         return np.array(self.state), reward, done, {}
 
     def reset(self):
-        self.state = self.np_random.uniform(low=-0.05, high=0.05, size=(4,))
+        self.state = self.np_random.uniform(low=-0.5, high=0.5, size=(4,))
         self.steps_beyond_done = None
         return np.array(self.state)
 
