@@ -183,6 +183,7 @@ class CartPoleTwistEnv(gym.Env):
         self.carttrans.set_translation(cartx, carty)
         self.poletrans.set_rotation(-x[2])
 
+        print('here')
         return self.viewer.render(return_rgb_array = mode=='rgb_array')
 
     def close(self):
