@@ -59,7 +59,7 @@ class CartPoleTwistEnv(gym.Env):
         self.tau = 0.02  # seconds between state updates
         self.kinematics_integrator = 'euler'
 
-        self.desired_angle = 80 * math.pi / 360
+        self.desired_angle = 60 * 2 * math.pi / 360
         self.pickiness = 4
 
         # Angle at which to fail the episode
@@ -113,13 +113,13 @@ class CartPoleTwistEnv(gym.Env):
                 or theta > self.theta_threshold_radians
         done = bool(done)
 
-        distance_from_desired_angle = abs(theta) - self.desired_angle
+        distance_from_desired_angle = (abs(theta) - self.desired_angle) / self.pickiness
         if not done:
-            reward = math.exp(-distance_from_desired_angle*distance_from_desired_angle/2*self.pickiness*self.pickiness)
+            reward = math.exp(-distance_from_desired_angle*distance_from_desired_angle/2)/self.pickiness
         elif self.steps_beyond_done is None:
             # Pole just fell!
             self.steps_beyond_done = 0
-            reward = math.exp(-distance_from_desired_angle*distance_from_desired_angle/2*self.pickiness*self.pickiness)
+            reward = math.exp(-distance_from_desired_angle*distance_from_desired_angle/2)/self.pickiness
         else:
             if self.steps_beyond_done == 0:
                 logger.warn("You are calling 'step()' even though this environment has already returned done = True. You should always call 'reset()' once you receive 'done = True' -- any further steps are undefined behavior.")
