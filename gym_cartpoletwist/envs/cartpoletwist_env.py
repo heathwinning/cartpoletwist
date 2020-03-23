@@ -111,7 +111,7 @@ class CartPoleTwistEnv(gym.Env):
                 or x > self.x_threshold
         done = bool(done)
 
-        distance_from_desired_angle = (abs(theta) - self.desired_angle) / self.flexibility
+        distance_from_desired_angle = (theta - self.desired_angle) / self.flexibility
         if not done:
             reward = math.exp(-distance_from_desired_angle*distance_from_desired_angle/2)
         elif self.steps_beyond_done is None:
