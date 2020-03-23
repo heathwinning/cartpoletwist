@@ -59,7 +59,7 @@ class CartPoleTwistEnv(gym.Env):
         self.tau = 0.02  # seconds between state updates
         self.kinematics_integrator = 'euler'
 
-        self.desired_angle = 15 * math.pi / 360
+        self.desired_angle = 30 * math.pi / 360
 
         # Angle at which to fail the episode
         self.theta_threshold_radians = 30 * 2 * math.pi / 360
