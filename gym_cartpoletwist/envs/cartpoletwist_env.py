@@ -63,7 +63,7 @@ class CartPoleTwistEnv(gym.Env):
 
         # Angle at which to fail the episode
         self.theta_threshold_radians = 360 * 2 * math.pi / 360
-        self.x_threshold = 2.4
+        self.x_threshold = 4
 
         # Angle limit set to 2 * theta_threshold_radians so failing observation is still within bounds
         high = np.array([self.x_threshold * 2,
